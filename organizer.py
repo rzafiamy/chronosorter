@@ -2,6 +2,7 @@ import os
 import shutil
 import magic
 from config import CATEGORIES, IGNORED_FOLDERS
+import time
 
 class FileOrganizer:
     def __init__(self, path):
@@ -44,7 +45,13 @@ class FileOrganizer:
         destination = os.path.join(self.path, category)
         if not os.path.exists(destination):
             os.makedirs(destination)
-        shutil.move(item_path, destination)
+        
+        base_name = os.path.basename(item_path)
+        original_name, extension = os.path.splitext(base_name)
+        while os.path.exists(os.path.join(destination, base_name)):
+            base_name = f"{original_name}_{int(time.time())}{extension}"
+
+        shutil.move(item_path, os.path.join(destination, base_name))
 
     def update_size(self, item_path, category):
         """
