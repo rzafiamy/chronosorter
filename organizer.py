@@ -23,8 +23,8 @@ class FileOrganizer:
                 self.move_item(item_path, "a_folder")
             else:
                 category = self.get_category(item_path)
-                self.move_item(item_path, category)
                 self.update_size(item_path, category)
+                self.move_item(item_path, category)
         self.generate_report()
 
     def get_category(self, item_path):
